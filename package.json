@@ -5,6 +5,7 @@
   "dependencies": {
     "typescript": "4.5.2"
   },
+  "type": "commonjs",
   "keywords": [],
   "devDependencies": {
     "ts-node": "^10.4.0"
