@@ -1,18 +1,12 @@
 {
-  "version": "0.0.4",
+  "version": "0.0.0",
   "name": "algorithms-practice",
-  "description": "TypeScript playground exported Sandbox",
+  "description": "TypeScript playground exported Sandbox for algorithms practice",
   "dependencies": {
     "typescript": "4.5.2"
   },
   "keywords": [],
   "devDependencies": {
-    "react-scripts": "1.0.0"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "ts-node": "^10.4.0"
   }
 }

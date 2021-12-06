@@ -1,9 +1,0 @@
-{
-  "version": "0.0.0",
-  "name": "algorithms-practice",
-  "description": "TypeScript playground exported Sandbox",
-  "dependencies": {
-    "typescript": "4.5.2"
-  },
-  "keywords": []
-}
