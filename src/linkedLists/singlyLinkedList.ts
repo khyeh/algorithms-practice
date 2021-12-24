@@ -119,6 +119,69 @@ class SinglyLinkedList {
         return false;
     }
 
+    /** Adds a new node with specified value at specified index */
+    insert(index: number, val: LinkedListNodeValue) {
+        if (index < 0 || this.length < index) {
+            return false;
+        }
+        if (index === this.length) {
+            return !!(this.push(val));
+        }
+        if (index === 0) {
+            return !!(this.unshift(val));
+        }
+        const newNode = new LinkedListNode(val);
+        const prevNode = this.get(index - 1);
+        const nextNode = prevNode!.next;
+        prevNode!.next = newNode;
+        newNode.next = nextNode;
+        this.length += 1;
+        return true;
+    }
+
+    /** Removes node at specified index */
+    remove(index: number) {
+        if (index < 0 || index > this.length) {
+            return null;
+        }
+        // node to remove is guaranteed to be tail
+        if (index === this.length - 1) {
+            return this.pop();
+        }
+        // node to remove is guaranteed to be head
+        if (index === 0) {
+            return this.shift();
+        }
+        let prevNode = this.get(index - 1);
+        const nodeToDelete = prevNode!.next;
+        prevNode!.next = nodeToDelete!.next;;
+        this.length -= 1;
+        return nodeToDelete;
+    }
+
+    /** Reverses the linked list in place */
+    reverseList() {
+        if (!this.head || this.length === 1) {
+            return this;
+        }
+
+        // swap the head and tail 
+        let node: LinkedListNode | null = this.head;
+        this.head = this.tail;
+        this.tail = node;
+
+        let prev: LinkedListNode | null = null;
+        let next: LinkedListNode | null = null;
+
+        while (node) {
+            next = node!.next;
+            node!.next = prev;
+            prev = node;
+            node = next;
+        }
+        return this;
+    }
+
     traverse() {
         let current = this.head;
         while (current) {
@@ -132,8 +195,10 @@ const linkedList = new SinglyLinkedList();
 linkedList.push("hello")
 linkedList.push("world");
 linkedList.push(99);
-console.log(linkedList.set(2, "dog"));
-// linkedList.pop();
-// linkedList.shift();
+linkedList.set(2, "dog");
+linkedList.insert(1, "weird");
+linkedList.remove(1);
+linkedList.reverseList();
+linkedList.pop();
+linkedList.shift();
 linkedList.traverse();
-// console.log(linkedList)
