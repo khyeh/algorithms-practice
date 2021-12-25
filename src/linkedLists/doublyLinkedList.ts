@@ -157,6 +157,50 @@ class DoublyLinkedList {
         this.length += 1;
         return true;
     }
+
+    /** Removes node at specified index */
+    remove(index: number) {
+        if (index > this.length || !this.head) {
+            return null;
+        }
+        if (index = this.length - 1) {
+            return this.pop();
+        }
+        if (index === 0) {
+            return this.shift();
+        }
+        const nodeToRemove = this.get(index);
+        const prev = nodeToRemove?.prev;
+        const next = nodeToRemove?.next;
+        prev!.next = next!.prev, next!.prev = prev!.next;
+        this.length -= 1;
+        return nodeToRemove;
+    }
+
+    /** Reverses the linked list in place 
+     *  Note that solutoin is identical to singly linked lists
+     */
+    reverseList() {
+        if (!this.head || this.length === 1) {
+            return this;
+        }
+
+        // swap the head and tail 
+        let node: DoublyLinkedListNode | null = this.head;
+        this.head = this.tail;
+        this.tail = node;
+
+        let prev: DoublyLinkedListNode | null = null;
+        let next: DoublyLinkedListNode | null = null;
+
+        while (node) {
+            next = node!.next;
+            node!.next = prev;
+            prev = node;
+            node = next;
+        }
+        return this;
+    }
 }
 
 const doublyLinkedList = new DoublyLinkedList();
@@ -170,4 +214,7 @@ console.log(doublyLinkedList.get(0)?.val);
 console.log(doublyLinkedList.get(4)?.val);
 doublyLinkedList.set(0, "hello");
 console.log(doublyLinkedList.get(0)?.val);
-console.log(doublyLinkedList.insert(4, "hello"));
+// console.log(doublyLinkedList.insert(4, "hello"));
+doublyLinkedList.remove(0);
+doublyLinkedList.remove(4);
+doublyLinkedList.remove(2);
