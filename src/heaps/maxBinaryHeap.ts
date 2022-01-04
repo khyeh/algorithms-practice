@@ -22,10 +22,11 @@ class MaxBinaryHeap {
         let pushedValIndex = this.values.length - 1;
         let parentIdx = Math.floor((pushedValIndex - 1) / 2);
 
-        while (this.values[parentIdx] < this.values[pushedValIndex]) {
+        while (parentIdx >= 0) {
             // swap the pushed value with parent value
-            this.#swapValues(parentIdx, pushedValIndex)
-
+            if (this.values[parentIdx] < this.values[pushedValIndex]) {
+                this.#swapValues(parentIdx, pushedValIndex)
+            }
             // bubble up to next parent
             pushedValIndex = parentIdx;
             parentIdx = Math.floor((pushedValIndex - 1) / 2);
@@ -98,4 +99,3 @@ maxBinaryHeap.extractMax();
 console.log(maxBinaryHeap.outputValues())
 maxBinaryHeap.extractMax();
 console.log(maxBinaryHeap.outputValues())
-
