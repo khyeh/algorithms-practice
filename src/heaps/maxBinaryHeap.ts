@@ -35,20 +35,19 @@ class MaxBinaryHeap {
     }
 
     extractMax(): number | null {
-        const heapSize = this.values.length;
-        if (heapSize === 0) return null;
-        if (heapSize === 1) return this.values.pop()!;
+        if (this.values.length === 0) return null;
+        if (this.values.length === 1) return this.values.pop()!;
 
         // swap the first and last values of the array
-        this.#swapValues(0, heapSize - 1)
+        this.#swapValues(0, this.values.length - 1)
         const extractedValue = this.values.pop()!;
 
         // sink down root
         let parentIdx = 0;
         let firstChildIdx = 2 * parentIdx + 1;
         let secondChildIdx = 2 * parentIdx + 2;
-        let firstChild = firstChildIdx >= heapSize ? -1 : this.values[firstChildIdx];
-        let secondChild = secondChildIdx >= heapSize ? -1 : this.values[secondChildIdx];
+        let firstChild = firstChildIdx >= this.values.length ? -1 : this.values[firstChildIdx];
+        let secondChild = secondChildIdx >= this.values.length ? -1 : this.values[secondChildIdx];
 
         while (this.values[parentIdx] < firstChild || this.values[parentIdx] < secondChild) {
             if (this.values[parentIdx] < firstChild && this.values[parentIdx] < secondChild) {
@@ -71,8 +70,8 @@ class MaxBinaryHeap {
             else {
                 break;
             }
-            firstChild = 2 * parentIdx + 1 >= heapSize ? -1 : this.values[2 * parentIdx + 1];
-            secondChild = 2 * parentIdx + 2 >= heapSize ? -1 : this.values[2 * parentIdx + 2];
+            firstChild = 2 * parentIdx + 1 >= this.values.length ? -1 : this.values[2 * parentIdx + 1];
+            secondChild = 2 * parentIdx + 2 >= this.values.length ? -1 : this.values[2 * parentIdx + 2];
         }
         return extractedValue;
     }
