@@ -20,61 +20,58 @@ class MaxBinaryHeap {
     insert(val: number) {
         this.values.push(val);
         let pushedValIndex = this.values.length - 1;
-        let parentIndex = Math.floor((pushedValIndex - 1) / 2);
+        let parentIdx = Math.floor((pushedValIndex - 1) / 2);
 
-        while (this.values[parentIndex] < this.values[pushedValIndex]) {
-            // swap pushed value with parent value
-            let temp = this.values[parentIndex];
-            this.values[parentIndex] = this.values[pushedValIndex];
-            this.values[pushedValIndex] = temp;
+        while (this.values[parentIdx] < this.values[pushedValIndex]) {
+            // swap the pushed value with parent value
+            this.#swapValues(parentIdx, pushedValIndex)
 
             // bubble up to next parent
-            pushedValIndex = parentIndex;
-            parentIndex = Math.floor((pushedValIndex - 1) / 2);
+            pushedValIndex = parentIdx;
+            parentIdx = Math.floor((pushedValIndex - 1) / 2);
         }
         return this;
     }
 
     extractMax(): number | null {
-        if (this.values.length === 0) {
-            return null;
-        }
-        if (this.values.length === 1) {
-            return this.values.pop()!;
-        }
+        const heapSize = this.values.length;
+        if (heapSize === 0) return null;
+        if (heapSize === 1) return this.values.pop()!;
 
         // swap the first and last values of the array
-        this.swapValues(0, this.values.length - 1)
+        this.#swapValues(0, heapSize - 1)
         const extractedValue = this.values.pop()!;
 
         // sink down root
-        let parentIndex = 0;
-        let firstChild = 2 * parentIndex + 1 >= this.values.length ? -1 : this.values[2 * parentIndex + 1];
-        let secondChild = 2 * parentIndex + 2 >= this.values.length ? -1 : this.values[2 * parentIndex + 2];
+        let parentIdx = 0;
+        let firstChildIdx = 2 * parentIdx + 1;
+        let secondChildIdx = 2 * parentIdx + 2;
+        let firstChild = firstChildIdx >= heapSize ? -1 : this.values[firstChildIdx];
+        let secondChild = secondChildIdx >= heapSize ? -1 : this.values[secondChildIdx];
 
-        while (this.values[parentIndex] < firstChild || this.values[parentIndex] < secondChild) {
-            if (this.values[parentIndex] < firstChild && this.values[parentIndex] < secondChild) {
+        while (this.values[parentIdx] < firstChild || this.values[parentIdx] < secondChild) {
+            if (this.values[parentIdx] < firstChild && this.values[parentIdx] < secondChild) {
                 if (firstChild > secondChild) {
-                    this.swapValues(parentIndex, 2 * parentIndex + 1);
-                    parentIndex = 2 * parentIndex + 1;
+                    this.#swapValues(parentIdx, 2 * parentIdx + 1);
+                    parentIdx = 2 * parentIdx + 1;
                 } else {
-                    this.swapValues(parentIndex, 2 * parentIndex + 2);
-                    parentIndex = 2 * parentIndex + 2;
+                    this.#swapValues(parentIdx, 2 * parentIdx + 2);
+                    parentIdx = 2 * parentIdx + 2;
                 }
             }
-            else if (this.values[parentIndex] < firstChild) {
-                this.swapValues(parentIndex, parentIndex + 1)
-                parentIndex = 2 * parentIndex + 1;
+            else if (this.values[parentIdx] < firstChild) {
+                this.#swapValues(parentIdx, parentIdx + 1)
+                parentIdx = 2 * parentIdx + 1;
             }
-            else if (this.values[parentIndex] < secondChild) {
-                this.swapValues(parentIndex, parentIndex + 2)
-                parentIndex = 2 * parentIndex + 2
+            else if (this.values[parentIdx] < secondChild) {
+                this.#swapValues(parentIdx, parentIdx + 2)
+                parentIdx = 2 * parentIdx + 2
             }
             else {
                 break;
             }
-            firstChild = 2 * parentIndex + 1 >= this.values.length ? -1 : this.values[2 * parentIndex + 1];
-            secondChild = 2 * parentIndex + 2 >= this.values.length ? -1 : this.values[2 * parentIndex + 2];
+            firstChild = 2 * parentIdx + 1 >= heapSize ? -1 : this.values[2 * parentIdx + 1];
+            secondChild = 2 * parentIdx + 2 >= heapSize ? -1 : this.values[2 * parentIdx + 2];
         }
         return extractedValue;
     }
