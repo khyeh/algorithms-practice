@@ -1,19 +1,19 @@
-type Vertices = string[];
+type UnweightedVertices = string[];
 
-type Visited = {
+export type Visited = {
     [key: string]: boolean
 }
 
-type AdjacencyList = {
+type UnweightedAdjacencyList = {
     [key: string]: string[]
 }
 
-interface Graph {
-    adjacencyList: AdjacencyList
+interface UnweightedGraph {
+    adjacencyList: UnweightedAdjacencyList
 }
 
 /** Unweighted and Undirected Graph */
-class Graph {
+class UnweightedGraph {
     constructor() {
         this.adjacencyList = {};
     }
@@ -105,7 +105,7 @@ class Graph {
     }
 }
 
-const graph = new Graph();
+const graph = new UnweightedGraph();
 // graph.addVertex("Dallas");
 // graph.addVertex("Tokyo");
 // graph.addVertex("Aspen");
