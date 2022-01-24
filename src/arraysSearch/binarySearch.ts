@@ -4,23 +4,21 @@
 // time complexity must be O(log n)
 
 const binarySearch = (list: number[], target: number) => {
-    let frontIndex = 0;
-    let backIndex = list.length - 1;
+  let frontIndex = 0;
+  let backIndex = list.length - 1;
 
-    while (frontIndex <= backIndex) {
-        const middleIndex = Math.floor((frontIndex + backIndex) / 2);
-        if (target < list[middleIndex]) {
-            backIndex = middleIndex - 1;
-        }
-        else if (target > list[middleIndex]) {
-            frontIndex = middleIndex + 1;
-        }
-        else {
-            return middleIndex;
-        }
+  while (frontIndex <= backIndex) {
+    const middleIndex = Math.floor((frontIndex + backIndex) / 2);
+    if (target < list[middleIndex]) {
+      backIndex = middleIndex - 1;
+    } else if (target > list[middleIndex]) {
+      frontIndex = middleIndex + 1;
+    } else {
+      return middleIndex;
     }
-    return -1;
-}
+  }
+  return -1;
+};
 
 console.log(binarySearch([1, 2, 3, 4, 5], 2)); // 1
 console.log(binarySearch([1, 2, 3, 4, 5], 3)); // 2

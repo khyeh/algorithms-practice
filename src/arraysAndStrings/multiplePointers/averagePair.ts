@@ -1,26 +1,25 @@
-
-/** Given a sorted array of integers and a target average, determine if there is 
+/** Given a sorted array of integers and a target average, determine if there is
  *  a pair of values in the array where the average matches the target average.
  */
 const averagePair = (list: number[], average: number): boolean => {
-    if (list.length < 2) {
-        return false;
-    }
-    const target = average * 2;
-    let startIndex = 0;
-    let endIndex = list.length - 1;
-    while (startIndex <= endIndex) {
-        const computedValue = list[startIndex] + list[endIndex];
-        if (computedValue === target) {
-            return true;
-        } else if (computedValue <= target) {
-            startIndex++;
-        } else {
-            endIndex--;
-        }
-    }
+  if (list.length < 2) {
     return false;
-}
+  }
+  const target = average * 2;
+  let startIndex = 0;
+  let endIndex = list.length - 1;
+  while (startIndex <= endIndex) {
+    const computedValue = list[startIndex] + list[endIndex];
+    if (computedValue === target) {
+      return true;
+    } else if (computedValue <= target) {
+      startIndex++;
+    } else {
+      endIndex--;
+    }
+  }
+  return false;
+};
 
 console.log(averagePair([1, 2, 3], 2.5)); // true
 console.log(averagePair([1, 3, 3, 5, 6, 7, 10, 12, 19], 8)); // true

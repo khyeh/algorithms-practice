@@ -1,108 +1,111 @@
 type UnweightedVertices = string[];
 
 export type Visited = {
-    [key: string]: boolean
-}
+  [key: string]: boolean;
+};
 
 type UnweightedAdjacencyList = {
-    [key: string]: string[]
-}
+  [key: string]: string[];
+};
 
 interface UnweightedGraph {
-    adjacencyList: UnweightedAdjacencyList
+  adjacencyList: UnweightedAdjacencyList;
 }
 
 /** Unweighted and Undirected Graph */
 class UnweightedGraph {
-    constructor() {
-        this.adjacencyList = {};
-    }
+  constructor() {
+    this.adjacencyList = {};
+  }
 
-    addVertex(vertexName: string) {
-        return (!this.adjacencyList[vertexName]) ?
-            this.adjacencyList[vertexName] = [] : null
-    }
+  addVertex(vertexName: string) {
+    return !this.adjacencyList[vertexName]
+      ? (this.adjacencyList[vertexName] = [])
+      : null;
+  }
 
-    addEdge(vertex1: string, vertex2: string) {
-        if (!this.adjacencyList[vertex1] || !this.adjacencyList[vertex2]) {
-            return false;
+  addEdge(vertex1: string, vertex2: string) {
+    if (!this.adjacencyList[vertex1] || !this.adjacencyList[vertex2]) {
+      return false;
+    }
+    this.adjacencyList[vertex1].push(vertex2);
+    this.adjacencyList[vertex2].push(vertex1);
+    return true;
+  }
+
+  removeEdge(vertex1: string, vertex2: string) {
+    this.adjacencyList[vertex1] = this.adjacencyList[vertex1]?.filter(
+      vertex => vertex !== vertex2,
+    );
+    this.adjacencyList[vertex2] = this.adjacencyList[vertex2]?.filter(
+      vertex => vertex !== vertex1,
+    );
+  }
+
+  removeVertex(vertexName: string) {
+    for (const [key, value] of Object.entries(this.adjacencyList)) {
+      this.removeEdge(key, vertexName);
+    }
+    delete this.adjacencyList[vertexName];
+  }
+
+  dfsRecursive(startNode: string) {
+    const traversalOrder: string[] = [];
+    const visited: Visited = {};
+    const adjacencyList = this.adjacencyList;
+    const dfs = (vertex: string): void => {
+      if (!vertex) {
+        return;
+      }
+      visited[vertex] = true;
+      traversalOrder.push(vertex);
+      adjacencyList[vertex].forEach((neighbor: string) => {
+        if (!visited[neighbor]) {
+          return dfs(neighbor);
         }
-        this.adjacencyList[vertex1].push(vertex2);
-        this.adjacencyList[vertex2].push(vertex1);
-        return true;
+      });
+    };
+    dfs(startNode);
+    return traversalOrder;
+  }
+
+  dfsIterative(startNode: string) {
+    const stack = [];
+    const result = [];
+    const visited: Visited = {};
+
+    stack.push(startNode);
+    while (stack.length) {
+      const vertex: string = stack.pop()!;
+      if (!visited[vertex]) {
+        visited[vertex] = true;
+        result.push(vertex);
+        this.adjacencyList[vertex].forEach((neighbor: string) => {
+          stack.push(neighbor);
+        });
+      }
     }
+    return result;
+  }
 
-    removeEdge(vertex1: string, vertex2: string) {
-        this.adjacencyList[vertex1] =
-            this.adjacencyList[vertex1]?.filter(vertex => vertex !== vertex2);
-        this.adjacencyList[vertex2] =
-            this.adjacencyList[vertex2]?.filter(vertex => vertex !== vertex1);
+  bfs(startNode: string) {
+    const queue = [];
+    const result = [];
+    const visited: Visited = {};
+
+    queue.push(startNode);
+    while (queue.length) {
+      const vertex: string = queue.shift()!;
+      if (!visited[vertex]) {
+        visited[vertex] = true;
+        result.push(vertex);
+        this.adjacencyList[vertex].forEach((neighbor: string) => {
+          queue.push(neighbor);
+        });
+      }
     }
-
-    removeVertex(vertexName: string) {
-        for (const [key, value] of Object.entries(this.adjacencyList)) {
-            this.removeEdge(key, vertexName);
-        }
-        delete this.adjacencyList[vertexName];
-    }
-
-    dfsRecursive(startNode: string) {
-        const traversalOrder: string[] = [];
-        const visited: Visited = {};
-        const adjacencyList = this.adjacencyList;
-        const dfs = (vertex: string): void => {
-            if (!vertex) {
-                return;
-            }
-            visited[vertex] = true;
-            traversalOrder.push(vertex);
-            adjacencyList[vertex].forEach((neighbor: string) => {
-                if (!visited[neighbor]) {
-                    return dfs(neighbor)
-                }
-            });
-        }
-        dfs(startNode);
-        return traversalOrder;
-    }
-
-    dfsIterative(startNode: string) {
-        const stack = [];
-        const result = [];
-        const visited: Visited = {};
-
-        stack.push(startNode);
-        while (stack.length) {
-            const vertex: string = stack.pop()!;
-            if (!visited[vertex]) {
-                visited[vertex] = true;
-                result.push(vertex);
-                this.adjacencyList[vertex].forEach((neighbor: string) => {
-                    stack.push(neighbor);
-                })
-            }
-        }
-        return result;
-    }
-
-    bfs(startNode: string) {
-        const queue = [];
-        const result = [];
-        const visited: Visited = {};
-
-        queue.push(startNode);
-        while (queue.length) {
-            const vertex: string = queue.shift()!;
-            if (!visited[vertex]) {
-                visited[vertex] = true;
-                result.push(vertex);
-                this.adjacencyList[vertex].forEach((neighbor: string) => {
-                    queue.push(neighbor);
-                })
-            }
-        }
-        return result;
-    }
+    return result;
+  }
 }
 
 const graph = new UnweightedGraph();
