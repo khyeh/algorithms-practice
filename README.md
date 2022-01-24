@@ -14,4 +14,4 @@ List of practice problems for algorithms written in TypeScript.
 
 3. Run any file with the command:
    `ts-node {path_to_file}`
-   Example: `ts-node src/dynamicProgramming/climbStairs.ts`
+   Example: `ts-node src/concepts/dynamicProgramming/climbStairs.ts`
