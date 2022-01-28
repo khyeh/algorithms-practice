@@ -14,14 +14,15 @@ const edges: Edge[] = [
 
 export const convertToAdjacencyList = (edges: Edge[]) => {
   const adjacencyList: AdjacencyList = {};
-  edges.forEach(edge => {
-    const [startNode, endNode] = edge;
+  const addDirectedEdge = (startNode: string, endNode: string) => {
     adjacencyList[startNode] = adjacencyList[startNode]
       ? adjacencyList[startNode].add(endNode)
       : new Set(endNode);
-    adjacencyList[endNode] = adjacencyList[endNode]
-      ? adjacencyList[endNode].add(startNode)
-      : new Set(startNode);
+  };
+  edges.forEach(edge => {
+    const [startNode, endNode] = edge;
+    addDirectedEdge(startNode, endNode);
+    addDirectedEdge(endNode, startNode);
   });
   return adjacencyList;
 };
